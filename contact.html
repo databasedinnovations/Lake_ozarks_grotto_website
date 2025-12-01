@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Lake Ozarks Grotto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background: #ffffff;
+            color: #2c3e50;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            z-index: 9999;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255,140,0,0.2);
+            box-shadow: 0 2px 10px rgba(255,140,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff8c00, #ff6b35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #ff8c00, #ff6b35);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after,
+        .nav-menu a.active::after {
+            width: 100%;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #2c3e50;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        .page-hero {
+            padding: 140px 2rem 80px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1" fill="rgba(255,140,0,0.1)"/><circle cx="80" cy="40" r="0.5" fill="rgba(255,140,0,0.1)"/><circle cx="40" cy="80" r="1.5" fill="rgba(255,140,0,0.1)"/></svg>');
+        }
+
+        .page-hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.8);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .content-section {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            padding: 6rem 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .contact-info {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 4px 20px rgba(255,140,0,0.08);
+            border: 1px solid rgba(255,140,0,0.1);
+        }
+
+        .contact-info h2 {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(248,250,252,0.8));
+            border-radius: 12px;
+            border: 1px solid rgba(255,140,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateX(4px);
+            border-color: rgba(255,140,0,0.2);
+            box-shadow: 0 4px 15px rgba(255,140,0,0.1);
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            min-width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #ff6b35, #ff8c00);
+            color: white;
+            border-radius: 12px;
+        }
+
+        .contact-details h3 {
+            font-size: 1.2rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-details p {
+            color: #7f8c8d;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .contact-details a {
+            color: #ff8c00;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-details a:hover {
+            color: #ff6b35;
+        }
+
+        .contact-form {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 4px 20px rgba(255,140,0,0.08);
+            border: 1px solid rgba(255,140,0,0.1);
+        }
+
+        .contact-form h2 {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid rgba(255,140,0,0.2);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ff8c00;
+            box-shadow: 0 0 0 3px rgba(255,140,0,0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .submit-button {
+            background: linear-gradient(135deg, #ff6b35, #ff8c00);
+            color: white;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,107,53,0.3);
+        }
+
+        .meeting-info {
+            background: linear-gradient(135deg, #ff6b35, #ff8c00);
+            color: white;
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .meeting-info h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .meeting-info p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            margin-bottom: 0.5rem;
+        }
+
+        .meeting-info .highlight {
+            font-weight: 700;
+            font-size: 1.4rem;
+            margin-top: 1rem;
+        }
+
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(255,140,0,0.08);
+            border: 1px solid rgba(255,140,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(255,140,0,0.15);
+        }
+
+        .info-card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-card h3 {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .info-card p {
+            color: #7f8c8d;
+            line-height: 1.6;
+        }
+
+        .social-section {
+            background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(248,250,252,0.8));
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .social-section h2 {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid rgba(255,140,0,0.2);
+            border-radius: 50px;
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: rgba(255,140,0,0.1);
+            border-color: #ff8c00;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(255,255,255,0.98);
+                flex-direction: column;
+                padding: 1rem 2rem;
+                box-shadow: 0 4px 20px rgba(255,140,0,0.1);
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .nav-menu li {
+                margin: 0.5rem 0;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .contact-info,
+            .contact-form,
+            .meeting-info {
+                padding: 2rem;
+            }
+
+            .info-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Lake Ozarks Grotto</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="goodwin-pit.html">Goodwin Pit</a></li>
+                    <li><a href="events.html">Current Events</a></li>
+                    <li><a href="speleograph.html">Speleograph</a></li>
+                    <li><a href="contact.html" class="active">Contact</a></li>
+                </ul>
+                <div class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <div class="page-hero-content">
+            <h1 class="page-title">Get In Touch</h1>
+            <p class="page-subtitle">Join us for our next meeting or reach out with questions about caving and membership</p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="meeting-info">
+                <h2>📅 Monthly Meetings</h2>
+                <p>We meet monthly from April through November</p>
+                <p class="highlight">Stark Caverns, Eldon, Missouri</p>
+                <p style="margin-top: 1rem;">New members and visitors are always welcome!</p>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h2>Contact Information</h2>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">✉️</div>
+                        <div class="contact-details">
+                            <h3>Email Us</h3>
+                            <p><a href="mailto:contact@lakeozarksgrotto.com">contact@lakeozarksgrotto.com</a></p>
+                            <p>We typically respond within 24-48 hours</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-details">
+                            <h3>Meeting Location</h3>
+                            <p>Stark Caverns<br>
+                            Eldon, Missouri</p>
+                            <p>Meetings: April - November</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">🏛️</div>
+                        <div class="contact-details">
+                            <h3>NSS Affiliation</h3>
+                            <p>Official Grotto of the<br>
+                            National Speleological Society</p>
+                            <p><a href="https://caves.org" target="_blank">Visit NSS Website</a></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">ℹ️</div>
+                        <div class="contact-details">
+                            <h3>Missouri Caves</h3>
+                            <p>Learn about cave conservation<br>
+                            and responsible exploration</p>
+                            <p><a href="https://mospeleologicalsurvey.org" target="_blank">Missouri Speleological Survey</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form">
+                    <h2>Send Us a Message</h2>
+                    <form action="mailto:contact@lakeozarksgrotto.com" method="POST" enctype="text/plain">
+                        <div class="form-group">
+                            <label for="name">Name *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Subject *</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="submit-button">Send Message</button>
+                    </form>
+                    <p style="margin-top: 1rem; color: #7f8c8d; font-size: 0.9rem; text-align: center;">
+                        Note: This form will open your email client. You can also email us directly at contact@lakeozarksgrotto.com
+                    </p>
+                </div>
+            </div>
+
+            <div class="info-cards">
+                <div class="info-card">
+                    <div class="info-card-icon">🆕</div>
+                    <h3>New to Caving?</h3>
+                    <p>We welcome beginners! Attend a meeting to learn about safe caving practices and upcoming beginner-friendly trips.</p>
+                </div>
+                
+                <div class="info-card">
+                    <div class="info-card-icon">🎒</div>
+                    <h3>Join a Trip</h3>
+                    <p>Interested in joining an expedition? Contact us to learn about upcoming trips and what equipment you'll need.</p>
+                </div>
+                
+                <div class="info-card">
+                    <div class="info-card-icon">🤝</div>
+                    <h3>Become a Member</h3>
+                    <p>Ready to join? Membership includes access to trips, training, and our community of experienced cavers.</p>
+                </div>
+            </div>
+
+            <div class="social-section">
+                <h2>Connect With Us</h2>
+                <p style="color: #7f8c8d; margin-bottom: 1rem;">Follow our adventures and stay updated on upcoming events</p>
+                <div class="social-links">
+                    <a href="#" class="social-link">
+                        <span>📘</span>
+                        <span>Facebook</span>
+                    </a>
+                    <a href="#" class="social-link">
+                        <span>📸</span>
+                        <span>Instagram</span>
+                    </a>
+                    <a href="https://caves.org" target="_blank" class="social-link">
+                        <span>🏛️</span>
+                        <span>NSS Website</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (mobileToggle) {
+                mobileToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                });
+            }
+            
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                });
+            });
+        });
+
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(255,255,255,0.98)';
+                header.style.boxShadow = '0 2px 20px rgba(255,140,0,0.2)';
+            } else {
+                header.style.background = 'rgba(255,255,255,0.95)';
+                header.style.boxShadow = '0 2px 10px rgba(255,140,0,0.1)';
+            }
+        });
+    </script>
+</body>
+</html>

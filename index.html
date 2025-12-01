@@ -694,14 +694,16 @@
 <body>
     <header class="header">
         <div class="nav-container">
-            <div class="logo">Lake Ozarks Grotto</div>
+            <a href="index.html" class="logo" style="text-decoration: none;">Lake Ozarks Grotto</a>
             <nav>
                 <ul class="nav-menu">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#gallery">Gallery</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#expeditions">Expeditions</a></li>
-                    <li><a href="#join">Join</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="goodwin-pit.html">Goodwin Pit</a></li>
+                    <li><a href="events.html">Current Events</a></li>
+                    <li><a href="speleograph.html">Speleograph</a></li>
+                    <li><a href="contact.html">Contact</a></li>
                 </ul>
                 <div class="mobile-menu-toggle">
                     <span></span>
@@ -727,17 +729,17 @@
         </div>
         
         <div class="hero-content">
-            <div class="hero-badge">🏔️ Missouri Cave Exploration Since 1967</div>
+            <div class="hero-badge">ðŸ”ï¸ Missouri Cave Exploration Since 1967</div>
             <h1 class="hero-title">LAKE OZARKS<br>GROTTO</h1>
             <p class="hero-subtitle">Explore Missouri's underground treasures through safe exploration, expert training, and passionate conservation</p>
             <div class="hero-buttons">
-                <a href="#join" class="btn-primary">Join Our Community</a>
-                <a href="#gallery" class="btn-secondary">View Gallery</a>
+                <a href="contact.html" class="btn-primary">Join Our Community</a>
+                <a href="gallery.html" class="btn-secondary">View Gallery</a>
             </div>
         </div>
         
         <div class="scroll-indicator">
-            <div>↓</div>
+            <div>â†“</div>
             <div style="font-size: 0.9rem; margin-top: 0.5rem;">Scroll to discover</div>
         </div>
     </section>
@@ -791,19 +793,19 @@
             
             <div class="features-container">
                 <div class="feature-card">
-                    <div class="feature-icon">🗺️</div>
+                    <div class="feature-icon">ðŸ—ºï¸</div>
                     <h3 class="feature-title">Cave Exploration & Mapping</h3>
                     <p class="feature-text">Join our experienced members in locating, recording, exploring, and surveying Missouri's wild caves. Contribute to the Missouri Speleological Survey's mission while discovering hidden underground passages and formations.</p>
                 </div>
                 
                 <div class="feature-card">
-                    <div class="feature-icon">🛡️</div>
+                    <div class="feature-icon">ðŸ›¡ï¸</div>
                     <h3 class="feature-title">Safety & Education</h3>
                     <p class="feature-text">Learn safe caving techniques and cave conservation practices from seasoned cavers. We prioritize education and safety training to ensure responsible underground exploration for all skill levels.</p>
                 </div>
                 
                 <div class="feature-card">
-                    <div class="feature-icon">🌿</div>
+                    <div class="feature-icon">ðŸŒ¿</div>
                     <h3 class="feature-title">Conservation Leadership</h3>
                     <p class="feature-text">Participate in meaningful volunteer projects that protect Missouri's cave ecosystems. From sinkhole cleanup to scientific research, we're actively involved in preserving our underground heritage.</p>
                 </div>
@@ -814,7 +816,7 @@
     <section class="cta-section" id="join">
         <h2 class="cta-title">Ready to Join Our Community?</h2>
         <p class="cta-text">Meetings held monthly April through November at Stark Caverns near Eldon, MO. New members always welcome!</p>
-        <a href="mailto:contact@lakeozarksgrotto.com" class="cta-button">Contact Us Today</a>
+        <a href="contact.html" class="cta-button">Contact Us Today</a>
     </section>
 
     <script>
@@ -822,27 +824,27 @@
         let slideInterval;
 
         const images = [
-            'LOG Website Photos/--2.webp',
-            'LOG Website Photos/--3.webp',
-            'LOG Website Photos/--4.webp',
-            'LOG Website Photos/--5.webp',
-            'LOG Website Photos/--6.webp',
-            'LOG Website Photos/--7.webp',
-            'LOG Website Photos/-.webp',
-            'LOG Website Photos/IMG_5452.png',
-            'LOG Website Photos/IMG_5456.png',
-            'LOG Website Photos/IMG_5543.png',
-            'LOG Website Photos/IMG_5580.png',
-            'LOG Website Photos/IMG_5584.png',
-            'LOG Website Photos/rs=w-719,h-539.webp',
-            'LOG Website Photos/rs=w-984,h-554.webp',
-            'LOG Website Photos/rs=w-984,h-738-2.webp',
-            'LOG Website Photos/rs=w-984,h-738-3.webp',
-            'LOG Website Photos/rs=w-984,h-738-4.webp',
-            'LOG Website Photos/rs=w-984,h-738-5.webp',
-            'LOG Website Photos/rs=w-984,h-738-6.webp',
-            'LOG Website Photos/rs=w-984,h-738-7.webp',
-            'LOG Website Photos/rs=w-984,h-738.webp'
+            'images/--2.webp',
+            'images/--3.webp',
+            'images/--4.webp',
+            'images/--5.webp',
+            'images/--6.webp',
+            'images/--7.webp',
+            'images/-.webp',
+            'images/IMG_5452.png',
+            'images/IMG_5456.png',
+            'images/IMG_5543.png',
+            'images/IMG_5580.png',
+            'images/IMG_5584.png',
+            'images/rs=w-719,h-539.webp',
+            'images/rs=w-984,h-554.webp',
+            'images/rs=w-984,h-738-2.webp',
+            'images/rs=w-984,h-738-3.webp',
+            'images/rs=w-984,h-738-4.webp',
+            'images/rs=w-984,h-738-5.webp',
+            'images/rs=w-984,h-738-6.webp',
+            'images/rs=w-984,h-738-7.webp',
+            'images/rs=w-984,h-738.webp'
         ];
 
         function initSlideshow() {

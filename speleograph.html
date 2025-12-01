@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Speleograph - Lake Ozarks Grotto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background: #ffffff;
+            color: #2c3e50;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            z-index: 9999;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255,140,0,0.2);
+            box-shadow: 0 2px 10px rgba(255,140,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff8c00, #ff6b35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #ff8c00, #ff6b35);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after,
+        .nav-menu a.active::after {
+            width: 100%;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #2c3e50;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        .page-hero {
+            padding: 140px 2rem 80px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1" fill="rgba(255,140,0,0.1)"/><circle cx="80" cy="40" r="0.5" fill="rgba(255,140,0,0.1)"/><circle cx="40" cy="80" r="1.5" fill="rgba(255,140,0,0.1)"/></svg>');
+        }
+
+        .page-hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-title {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.8);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .content-section {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            padding: 6rem 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .intro-section {
+            background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(248,250,252,0.8));
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+            border: 1px solid rgba(255,140,0,0.1);
+            text-align: center;
+        }
+
+        .intro-section h2 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .intro-section p {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .latest-issue {
+            background: linear-gradient(135deg, #ff6b35, #ff8c00);
+            color: white;
+            padding: 3rem;
+            border-radius: 24px;
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        .latest-issue h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .latest-issue .issue-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .latest-issue p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            margin-bottom: 2rem;
+        }
+
+        .latest-issue .btn-download {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 16px 32px;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .latest-issue .btn-download:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .archive-section h2 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .archive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .archive-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(255,140,0,0.08);
+            border: 1px solid rgba(255,140,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .archive-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(255,140,0,0.15);
+            border-color: rgba(255,140,0,0.3);
+        }
+
+        .archive-card .issue-badge {
+            display: inline-block;
+            background: rgba(255,140,0,0.1);
+            color: #ff8c00;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .archive-card h3 {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .archive-card .date {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .archive-card .highlights {
+            color: #7f8c8d;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .archive-card .highlights ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .archive-card .highlights li {
+            padding-left: 1.5rem;
+            position: relative;
+            margin-bottom: 0.5rem;
+        }
+
+        .archive-card .highlights li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #ff8c00;
+        }
+
+        .contribute-section {
+            background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(248,250,252,0.8));
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 4rem 0;
+            border: 1px solid rgba(255,140,0,0.1);
+        }
+
+        .contribute-section h2 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .contribute-content {
+            max-width: 800px;
+            margin: 0 auto;
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .contribute-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .contribute-list {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .contribute-list h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .contribute-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .contribute-list li {
+            padding: 0.5rem 0;
+            padding-left: 2rem;
+            position: relative;
+            color: #7f8c8d;
+        }
+
+        .contribute-list li:before {
+            content: "✍️";
+            position: absolute;
+            left: 0;
+        }
+
+        .subscribe-section {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 3rem;
+            border-radius: 24px;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .subscribe-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .subscribe-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .subscribe-form {
+            display: flex;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .subscribe-form input {
+            flex: 1;
+            padding: 14px 20px;
+            border: 2px solid rgba(255,140,0,0.3);
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            font-size: 1rem;
+            color: white;
+            min-width: 250px;
+        }
+
+        .subscribe-form input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .subscribe-form input:focus {
+            outline: none;
+            border-color: #ff8c00;
+            background: rgba(255,255,255,0.15);
+        }
+
+        .subscribe-form button {
+            background: linear-gradient(135deg, #ff6b35, #ff8c00);
+            color: white;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .subscribe-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,107,53,0.4);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(255,255,255,0.98);
+                flex-direction: column;
+                padding: 1rem 2rem;
+                box-shadow: 0 4px 20px rgba(255,140,0,0.1);
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .nav-menu li {
+                margin: 0.5rem 0;
+            }
+
+            .archive-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .intro-section,
+            .latest-issue,
+            .contribute-section,
+            .subscribe-section {
+                padding: 2rem;
+            }
+
+            .subscribe-form {
+                flex-direction: column;
+            }
+
+            .subscribe-form input,
+            .subscribe-form button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Lake Ozarks Grotto</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="goodwin-pit.html">Goodwin Pit</a></li>
+                    <li><a href="events.html">Current Events</a></li>
+                    <li><a href="speleograph.html" class="active">Speleograph</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <div class="page-hero-content">
+            <h1 class="page-title">📰 The Speleograph</h1>
+            <p class="page-subtitle">Our official newsletter featuring expedition reports, conservation updates, and caving news since 1967</p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="intro-section">
+                <h2>About The Speleograph</h2>
+                <p>The Speleograph is Lake Ozarks Grotto's official publication, sharing stories from our underground adventures, documenting important conservation work, and keeping our community connected. Each issue features expedition reports, technical articles, cave science, safety tips, and news from the Missouri caving community.</p>
+            </div>
+
+            <div class="latest-issue">
+                <h2>Latest Issue</h2>
+                <div class="issue-number">Volume 58, Issue 1 - Spring 2025</div>
+                <p>Featuring: Season opening recap, upcoming expeditions, vertical training announcement, and conservation project updates</p>
+                <a href="#" class="btn-download">📥 Download PDF (Coming Soon)</a>
+            </div>
+
+            <div class="archive-section">
+                <h2>Archive</h2>
+                <div class="archive-grid">
+                    <div class="archive-card">
+                        <span class="issue-badge">Vol. 57, Issue 8</span>
+                        <h3>Fall 2024</h3>
+                        <div class="date">November 2024</div>
+                        <div class="highlights">
+                            <ul>
+                                <li>Season wrap-up report</li>
+                                <li>Annual conservation stats</li>
+                                <li>Photo highlights from 2024</li>
+                                <li>Planning for 2025 season</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="archive-card">
+                        <span class="issue-badge">Vol. 57, Issue 7</span>
+                        <h3>Summer 2024</h3>
+                        <div class="date">September 2024</div>
+                        <div class="highlights">
+                            <ul>
+                                <li>Multi-grotto mapping expedition</li>
+                                <li>New cave discoveries</li>
+                                <li>Vertical training recap</li>
+                                <li>Member spotlight features</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="archive-card">
+                        <span class="issue-badge">Vol. 57, Issue 6</span>
+                        <h3>Mid-Summer 2024</h3>
+                        <div class="date">July 2024</div>
+                        <div class="highlights">
+                            <ul>
+                                <li>Youth education program success</li>
+                                <li>Cave photography techniques</li>
+                                <li>Bat conservation update</li>
+                                <li>Equipment reviews</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="archive-card">
+                        <span class="issue-badge">Vol. 57, Issue 5</span>
+                        <h3>Early Summer 2024</h3>
+                        <div class="date">June 2024</div>
+                        <div class="highlights">
+                            <ul>
+                                <li>Cave surveying workshop recap</li>
+                                <li>Missouri cave geology series</li>
+                                <li>Safety protocol updates</li>
+                                <li>Upcoming trip calendar</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="archive-card">
+                        <span class="issue-badge">Vol. 57, Issue 4</span>
+                        <h3>Spring 2024</h3>
+                        <div class="date">May 2024</div>
+                        <div class="highlights">
+                            <ul>
+                                <li>Spring cleanup success story</li>
+                                <li>3 tons of debris removed</li>
+                                <li>Volunteer recognition</li>
+                                <li>Conservation best practices</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="archive-card">
+                        <span class="issue-badge">Vol. 57, Issue 3</span>
+                        <h3>Early Spring 2024</h3>
+                        <div class="date">April 2024</div>
+                        <div class="highlights">
+                            <ul>
+                                <li>Season opening meeting recap</li>
+                                <li>New member introductions</li>
+                                <li>2024 expedition schedule</li>
+                                <li>Cave access updates</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contribute-section">
+                <h2>Contribute to The Speleograph</h2>
+                <div class="contribute-content">
+                    <p>The Speleograph thrives on contributions from our members! We welcome submissions that share your caving experiences, technical knowledge, and passion for Missouri's caves. Whether you're a seasoned caver or new to the grotto, your perspective matters.</p>
+
+                    <div class="contribute-list">
+                        <h3>What We're Looking For:</h3>
+                        <ul>
+                            <li>Trip reports from recent expeditions</li>
+                            <li>Technical articles on caving techniques</li>
+                            <li>Cave photography and artwork</li>
+                            <li>Conservation project updates</li>
+                            <li>Historical stories and grotto memories</li>
+                            <li>Equipment reviews and recommendations</li>
+                            <li>Cave science and geology articles</li>
+                            <li>Safety tips and lessons learned</li>
+                        </ul>
+                    </div>
+
+                    <p>Don't worry about being a professional writer—we have editors who can help polish your submission. What's most important is sharing your experiences and knowledge with the grotto community.</p>
+
+                    <p><strong>Ready to contribute?</strong> Send your submissions, ideas, or questions to our newsletter editor at <a href="mailto:newsletter@lakeozarksgrotto.com" style="color: #ff8c00; text-decoration: none;">newsletter@lakeozarksgrotto.com</a></p>
+                </div>
+            </div>
+
+            <div class="subscribe-section">
+                <h2>Subscribe to The Speleograph</h2>
+                <p>Get the latest issue delivered to your inbox as soon as it's published</p>
+                <form class="subscribe-form">
+                    <input type="email" placeholder="Enter your email address" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+                <p style="margin-top: 1.5rem; font-size: 0.95rem; opacity: 0.8;">Members automatically receive newsletter updates. Subscription is free!</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (mobileToggle) {
+                mobileToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                });
+            }
+            
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                });
+            });
+
+            // Subscribe form
+            const subscribeForm = document.querySelector('.subscribe-form');
+            if (subscribeForm) {
+                subscribeForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('Thank you for subscribing to The Speleograph! You will receive the latest issues via email.');
+                    this.reset();
+                });
+            }
+
+            // Archive card click handlers
+            document.querySelectorAll('.archive-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    alert('Archive access coming soon! Contact us if you need a specific back issue.');
+                });
+            });
+        });
+
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(255,255,255,0.98)';
+                header.style.boxShadow = '0 2px 20px rgba(255,140,0,0.2)';
+            } else {
+                header.style.background = 'rgba(255,255,255,0.95)';
+                header.style.boxShadow = '0 2px 10px rgba(255,140,0,0.1)';
+            }
+        });
+    </script>
+</body>
+</html>
