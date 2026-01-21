@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lake Ozarks Grotto - Underground Adventures</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background: #ffffff;
+            color: #2c3e50;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            z-index: 9999;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255,140,0,0.2);
+            box-shadow: 0 2px 10px rgba(255,140,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff8c00, #ff6b35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #ff8c00, #ff6b35);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #2c3e50;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        .hero-container {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, #f8fafc, #ffffff, #f1f5f9);
+            overflow: hidden;
+            padding-top: 80px;
+        }
+
+        .cave-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255,140,0,0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255,69,0,0.04) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(210,105,30,0.03) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite alternate;
+        }
+
+        .floating-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255,140,0,0.4);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .particle:nth-child(1) { width: 2px; height: 2px; left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { width: 3px; height: 3px; left: 20%; animation-delay: 1s; }
+        .particle:nth-child(3) { width: 1px; height: 1px; left: 30%; animation-delay: 2s; }
+        .particle:nth-child(4) { width: 4px; height: 4px; left: 40%; animation-delay: 0.5s; }
+        .particle:nth-child(5) { width: 2px; height: 2px; left: 50%; animation-delay: 1.5s; }
+        .particle:nth-child(6) { width: 3px; height: 3px; left: 60%; animation-delay: 3s; }
+        .particle:nth-child(7) { width: 1px; height: 1px; left: 70%; animation-delay: 2.5s; }
+        .particle:nth-child(8) { width: 2px; height: 2px; left: 80%; animation-delay: 4s; }
+        .particle:nth-child(9) { width: 4px; height: 4px; left: 90%; animation-delay: 3.5s; }
+
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+            max-width: 900px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,140,0,0.1);
+            border: 1px solid rgba(255,140,0,0.3);
+            color: #ff8c00;
+            padding: 8px 24px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #2c3e50, #ff8c00, #2c3e50);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease-in-out infinite, fadeInUp 1s ease-out;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: #7f8c8d;
+            margin-bottom: 3rem;
+            font-weight: 300;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6b35, #ff8c00);
+            color: white;
+            padding: 18px 36px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255,107,53,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(255,107,53,0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255,140,0,0.1);
+            color: #ff8c00;
+            padding: 18px 36px;
+            border: 2px solid rgba(255,140,0,0.3);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,140,0,0.2);
+            border-color: #ff8c00;
+            transform: translateY(-2px);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #7f8c8d;
+            text-align: center;
+            animation: bounce 2s infinite;
+        }
+
+        .gallery-section {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            padding: 6rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1" fill="rgba(255,140,0,0.1)"/><circle cx="80" cy="40" r="0.5" fill="rgba(255,140,0,0.1)"/><circle cx="40" cy="80" r="1.5" fill="rgba(255,140,0,0.1)"/></svg>');
+            animation: float 10s ease-in-out infinite;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .section-description {
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.8);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .slideshow-container {
+            max-width: 1000px;
+            position: relative;
+            margin: 0 auto;
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,140,0,0.2);
+        }
+
+        .slide {
+            display: none;
+            position: relative;
+        }
+
+        .slide.active {
+            display: block;
+            animation: fadeIn 0.8s;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .slide-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(255,107,53,0.9), transparent);
+            color: white;
+            padding: 3rem 2rem 2rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .slide-number {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,140,0,0.9);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            margin-top: -30px;
+            padding: 16px 20px;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            transition: 0.3s ease;
+            border-radius: 0 8px 8px 0;
+            user-select: none;
+            background: rgba(255,140,0,0.7);
+            z-index: 10;
+        }
+
+        .next {
+            right: 0;
+            border-radius: 8px 0 0 8px;
+        }
+
+        .prev:hover, .next:hover {
+            background: rgba(255,140,0,0.9);
+        }
+
+        .dots-container {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .dot {
+            cursor: pointer;
+            height: 12px;
+            width: 12px;
+            margin: 0 5px;
+            background-color: rgba(255,140,0,0.3);
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .dot.active, .dot:hover {
+            background-color: rgba(255,140,0,0.9);
+        }
+
+        .stats-section {
+            background: linear-gradient(180deg, #f8fafc 0%, #e3f2fd 100%);
+            padding: 6rem 2rem;
+            position: relative;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            background: white;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,140,0,0.2);
+            border-radius: 20px;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(255,140,0,0.08);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255,140,0,0.4);
+            box-shadow: 0 15px 40px rgba(255,140,0,0.15);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ff8c00, #ff6b35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .content-section {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            padding: 8rem 2rem;
+            position: relative;
+        }
+
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .feature-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(248,250,252,0.8));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,140,0,0.1);
+            border-radius: 24px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(255,140,0,0.08);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,140,0,0.5), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.8s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255,140,0,0.3);
+            box-shadow: 0 20px 60px rgba(255,140,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            filter: grayscale(0.3);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            filter: grayscale(0);
+            transform: scale(1.1);
+        }
+
+        .feature-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .feature-text {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #ff6b35, #ff8c00);
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="80" r="1.5" fill="rgba(255,255,255,0.1)"/></svg>');
+            animation: float 10s ease-in-out infinite;
+        }
+
+        .cta-title {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: white;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-text {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            color: rgba(255,255,255,0.9);
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-button {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            padding: 20px 40px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-button:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0.4; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(120deg); }
+            66% { transform: translateY(10px) rotate(240deg); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        @media (max-width: 1024px) {
+            .nav-menu {
+                gap: 1.5rem;
+            }
+
+            .slide img {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(255,255,255,0.98);
+                flex-direction: column;
+                padding: 1rem 2rem;
+                box-shadow: 0 4px 20px rgba(255,140,0,0.1);
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .nav-menu li {
+                margin: 0.5rem 0;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                max-width: 280px;
+            }
+            
+            .features-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .feature-card {
+                padding: 2rem;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+
+            .slide img {
+                height: 300px;
+            }
+
+            .prev, .next {
+                padding: 10px 14px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">Lake Ozarks Grotto</div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#expeditions">Expeditions</a></li>
+                    <li><a href="#join">Join</a></li>
+                </ul>
+                <div class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero-container" id="home">
+        <div class="cave-background"></div>
+        <div class="floating-particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        
+        <div class="hero-content">
+            <div class="hero-badge">🏔️ Missouri Cave Exploration Since 1967</div>
+            <h1 class="hero-title">LAKE OZARKS<br>GROTTO</h1>
+            <p class="hero-subtitle">Explore Missouri's underground treasures through safe exploration, expert training, and passionate conservation</p>
+            <div class="hero-buttons">
+                <a href="#join" class="btn-primary">Join Our Community</a>
+                <a href="#gallery" class="btn-secondary">View Gallery</a>
+            </div>
+        </div>
+        
+        <div class="scroll-indicator">
+            <div>↓</div>
+            <div style="font-size: 0.9rem; margin-top: 0.5rem;">Scroll to discover</div>
+        </div>
+    </section>
+
+    <section class="gallery-section" id="gallery">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Expedition Gallery</h2>
+                <p class="section-description">Experience the beauty and wonder of Missouri's underground through our explorations</p>
+            </div>
+            
+            <div class="slideshow-container" id="slideshowContainer">
+                <!-- Slides will be generated here -->
+            </div>
+
+            <div class="dots-container" id="dotsContainer">
+                <!-- Dots will be generated here -->
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section" id="about">
+        <div class="container">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-number">58</div>
+                    <div class="stat-label">Years in Existence</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">170+</div>
+                    <div class="stat-label">Tons Trash Removed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Caves Mapped</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1000s</div>
+                    <div class="stat-label">Miles Explored</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section" id="expeditions">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Why Lake Ozarks Grotto?</h2>
+                <p class="section-description">We combine decades of experience with a commitment to safety, education, and conservation to preserve Missouri's underground treasures for future generations.</p>
+            </div>
+            
+            <div class="features-container">
+                <div class="feature-card">
+                    <div class="feature-icon">🗺️</div>
+                    <h3 class="feature-title">Cave Exploration & Mapping</h3>
+                    <p class="feature-text">Join our experienced members in locating, recording, exploring, and surveying Missouri's wild caves. Contribute to the Missouri Speleological Survey's mission while discovering hidden underground passages and formations.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3 class="feature-title">Safety & Education</h3>
+                    <p class="feature-text">Learn safe caving techniques and cave conservation practices from seasoned cavers. We prioritize education and safety training to ensure responsible underground exploration for all skill levels.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🌿</div>
+                    <h3 class="feature-title">Conservation Leadership</h3>
+                    <p class="feature-text">Participate in meaningful volunteer projects that protect Missouri's cave ecosystems. From sinkhole cleanup to scientific research, we're actively involved in preserving our underground heritage.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section" id="join">
+        <h2 class="cta-title">Ready to Join Our Community?</h2>
+        <p class="cta-text">Meetings held monthly April through November at Stark Caverns near Eldon, MO. New members always welcome!</p>
+        <a href="mailto:contact@lakeozarksgrotto.com" class="cta-button">Contact Us Today</a>
+    </section>
+
+    <script>
+        let slideIndex = 0;
+        let slideInterval;
+
+        // Image paths - CORRECTED VERSION (after fixing the two files missing dots)
+        const images = [
+            { src: 'images/Buzzard-roost-cave.webp', caption: 'Buzzard Roost Cave' },
+            { src: 'images/Cable-ladder.webp', caption: 'Cable Ladder' },
+            { src: 'images/Carroll-cave-1.webp', caption: 'Carroll Cave 1' },
+            { src: 'images/Carroll-cave-2.webp', caption: 'Carroll Cave 2' },
+            { src: 'images/Carroll-cave-3.webp', caption: 'Carroll Cave 3' },
+            { src: 'images/Cave Crickets.jpg', caption: 'Cave Crickets' },
+            { src: 'images/Cave Salamander.jpg', caption: 'Cave Salamander' },
+            { src: 'images/Cave Salamander 2.jpg', caption: 'Cave Salamander Close-up' },
+            { src: 'images/Explorer.jpg', caption: 'Cave Explorer' },
+            { src: 'images/Goodwin-sink-1.webp', caption: 'Goodwin Sink 1' },
+            { src: 'images/Goodwin-sink-2.webp', caption: 'Goodwin Sink 2' },
+            { src: 'images/Goodwin-sink-3.webp', caption: 'Goodwin Sink 3' },
+            { src: 'images/Goodwin-sink-4.webp', caption: 'Goodwin Sink 4' },
+            { src: 'images/Goodwin-sink-5.webp', caption: 'Goodwin Sink 5' },
+            { src: 'images/Goodwin-sink-6.webp', caption: 'Goodwin Sink 6' },
+            { src: 'images/Goodwin-sink-7.webp', caption: 'Goodwin Sink 7' },
+            { src: 'images/Goodwin-sink-cleanup.webp', caption: 'Goodwin Sink Cleanup' },
+            { src: 'images/Goodwin-sink-flooded.webp', caption: 'Goodwin Sink Flooded' },
+            { src: 'images/River-cave.webp', caption: 'River Cave' }
+        ];
+
+        function initSlideshow() {
+            const container = document.getElementById('slideshowContainer');
+            const dotsContainer = document.getElementById('dotsContainer');
+
+            images.forEach((image, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'slide';
+                if (index === 0) slide.classList.add('active');
+
+                const slideNumber = document.createElement('div');
+                slideNumber.className = 'slide-number';
+                slideNumber.textContent = `${index + 1} / ${images.length}`;
+
+                const img = document.createElement('img');
+                img.src = image.src;
+                img.alt = image.caption;
+                img.onerror = function() {
+                    console.error('Failed to load image:', image.src);
+                    this.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600"%3E%3Crect fill="%23ddd" width="800" height="600"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" fill="%23999" font-size="24"%3EImage not found%3C/text%3E%3C/svg%3E';
+                };
+
+                const caption = document.createElement('div');
+                caption.className = 'slide-caption';
+                caption.textContent = image.caption;
+
+                slide.appendChild(slideNumber);
+                slide.appendChild(img);
+                slide.appendChild(caption);
+                container.appendChild(slide);
+
+                const dot = document.createElement('span');
+                dot.className = 'dot';
+                if (index === 0) dot.classList.add('active');
+                dot.onclick = () => currentSlide(index);
+                dotsContainer.appendChild(dot);
+            });
+
+            const prevButton = document.createElement('a');
+            prevButton.className = 'prev';
+            prevButton.innerHTML = '&#10094;';
+            prevButton.onclick = () => plusSlides(-1);
+            container.appendChild(prevButton);
+
+            const nextButton = document.createElement('a');
+            nextButton.className = 'next';
+            nextButton.innerHTML = '&#10095;';
+            nextButton.onclick = () => plusSlides(1);
+            container.appendChild(nextButton);
+
+            startAutoSlide();
+        }
+
+        function plusSlides(n) {
+            clearInterval(slideInterval);
+            showSlides(slideIndex += n);
+            startAutoSlide();
+        }
+
+        function currentSlide(n) {
+            clearInterval(slideInterval);
+            showSlides(slideIndex = n);
+            startAutoSlide();
+        }
+
+        function showSlides(n) {
+            const slides = document.getElementsByClassName('slide');
+            const dots = document.getElementsByClassName('dot');
+            
+            if (n >= slides.length) { slideIndex = 0; }
+            if (n < 0) { slideIndex = slides.length - 1; }
+            
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.remove('active');
+            }
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].classList.remove('active');
+            }
+            
+            if (slides[slideIndex]) {
+                slides[slideIndex].classList.add('active');
+                dots[slideIndex].classList.add('active');
+            }
+        }
+
+        function startAutoSlide() {
+            slideInterval = setInterval(() => {
+                slideIndex++;
+                showSlides(slideIndex);
+            }, 5000);
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 80;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255,255,255,0.98)';
+                header.style.boxShadow = '0 2px 20px rgba(255,140,0,0.2)';
+            } else {
+                header.style.background = 'rgba(255,255,255,0.95)';
+                header.style.boxShadow = '0 2px 10px rgba(255,140,0,0.1)';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (mobileToggle) {
+                mobileToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                });
+            }
+            
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                });
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const background = document.querySelector('.cave-background');
+            if (background) {
+                background.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            observer.observe(card);
+        });
+
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            counters.forEach(counter => {
+                const target = counter.textContent;
+                
+                if (target === '58') {
+                    let current = 0;
+                    const timer = setInterval(() => {
+                        current += 2;
+                        if (current >= 58) {
+                            counter.textContent = '58';
+                            clearInterval(timer);
+                        } else {
+                            counter.textContent = current;
+                        }
+                    }, 50);
+                } else if (target === '170+') {
+                    let current = 0;
+                    const timer = setInterval(() => {
+                        current += 5;
+                        if (current >= 170) {
+                            counter.textContent = '170+';
+                            clearInterval(timer);
+                        } else {
+                            counter.textContent = current + '+';
+                        }
+                    }, 30);
+                } else if (target === '50+') {
+                    let current = 0;
+                    const timer = setInterval(() => {
+                        current += 2;
+                        if (current >= 50) {
+                            counter.textContent = '50+';
+                            clearInterval(timer);
+                        } else {
+                            counter.textContent = current + '+';
+                        }
+                    }, 40);
+                }
+            });
+        }
+
+        const statsObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const statsContainer = document.querySelector('.stats-container');
+        if (statsContainer) {
+            statsObserver.observe(statsContainer);
+        }
+
+        window.addEventListener('load', initSlideshow);
+    </script>
+</body>
+</html>
