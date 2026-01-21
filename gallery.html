@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Lake Ozarks Grotto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background: #ffffff;
+            color: #2c3e50;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            z-index: 9999;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255,140,0,0.2);
+            box-shadow: 0 2px 10px rgba(255,140,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff8c00, #ff6b35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #ff8c00, #ff6b35);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after,
+        .nav-menu a.active::after {
+            width: 100%;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #2c3e50;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        .page-hero {
+            padding: 140px 2rem 80px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1" fill="rgba(255,140,0,0.1)"/><circle cx="80" cy="40" r="0.5" fill="rgba(255,140,0,0.1)"/><circle cx="40" cy="80" r="1.5" fill="rgba(255,140,0,0.1)"/></svg>');
+        }
+
+        .page-hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.8);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .content-section {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            padding: 6rem 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 24px;
+            background: white;
+            border: 2px solid rgba(255,140,0,0.2);
+            border-radius: 50px;
+            color: #2c3e50;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: linear-gradient(135deg, #ff6b35, #ff8c00);
+            color: white;
+            border-color: transparent;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            box-shadow: 0 4px 20px rgba(255,140,0,0.08);
+            border: 1px solid rgba(255,140,0,0.1);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(255,140,0,0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(44,62,80,0.95), transparent);
+            color: white;
+            padding: 1.5rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-overlay h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .gallery-overlay p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Lightbox Styles */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            animation: zoomIn 0.3s ease;
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+            background: rgba(255,140,0,0.7);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            background: rgba(255,140,0,0.9);
+            transform: rotate(90deg);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 30px;
+            color: white;
+            background: rgba(255,140,0,0.7);
+            padding: 20px 25px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-nav:hover {
+            background: rgba(255,140,0,0.9);
+        }
+
+        .lightbox-prev {
+            left: 20px;
+        }
+
+        .lightbox-next {
+            right: 20px;
+        }
+
+        .lightbox-caption {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,140,0,0.9);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .stats-bar {
+            background: linear-gradient(135deg, #ff6b35, #ff8c00);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .stats-bar h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-bar p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(255,255,255,0.98);
+                flex-direction: column;
+                padding: 1rem 2rem;
+                box-shadow: 0 4px 20px rgba(255,140,0,0.1);
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .nav-menu li {
+                margin: 0.5rem 0;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .lightbox-nav {
+                padding: 15px 20px;
+                font-size: 24px;
+            }
+
+            .lightbox-prev {
+                left: 10px;
+            }
+
+            .lightbox-next {
+                right: 10px;
+            }
+
+            .lightbox-close {
+                top: 10px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Lake Ozarks Grotto</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="gallery.html" class="active">Gallery</a></li>
+                    <li><a href="goodwin-pit.html">Goodwin Pit</a></li>
+                    <li><a href="events.html">Current Events</a></li>
+                    <li><a href="speleograph.html">Speleograph</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <div class="page-hero-content">
+            <h1 class="page-title">Expedition Gallery</h1>
+            <p class="page-subtitle">Explore Missouri's underground beauty through our adventures</p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="stats-bar">
+                <h2>Years of Underground Photography</h2>
+                <p>Documenting Missouri's cave systems since 1967</p>
+            </div>
+
+            <div class="gallery-filters">
+                <button class="filter-btn active" data-filter="all">All Photos</button>
+                <button class="filter-btn" data-filter="formations">Formations</button>
+                <button class="filter-btn" data-filter="exploration">Exploration</button>
+                <button class="filter-btn" data-filter="mapping">Mapping</button>
+            </div>
+
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- Gallery items will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <span class="lightbox-nav lightbox-prev" onclick="changeImage(-1)">&#10094;</span>
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="">
+            <div class="lightbox-caption" id="lightbox-caption"></div>
+        </div>
+        <span class="lightbox-nav lightbox-next" onclick="changeImage(1)">&#10095;</span>
+    </div>
+
+    <script>
+        // Image data array
+        const images = [
+            { src: 'images/Buzzard-roost-cave.webp', title: 'Buzzard Roost Cave', category: 'exploration' },
+            { src: 'images/Cable-ladder.webp', title: 'Cable Ladder', category: 'exploration' },
+            { src: 'images/Carroll-cave-1.webp', title: 'Carroll Cave 1', category: 'formations' },
+            { src: 'images/Carroll-cave-2.webp', title: 'Carroll Cave 2', category: 'formations' },
+            { src: 'images/Carroll-cave-3.webp', title: 'Carroll Cave 3', category: 'exploration' },
+            { src: 'images/Cave Crickets.jpg', title: 'Cave Crickets', category: 'exploration' },
+            { src: 'images/Cave Salamander.jpg', title: 'Cave Salamander', category: 'exploration' },
+            { src: 'images/Cave Salamander 2.jpg', title: 'Cave Salamander', category: 'exploration' },
+            { src: 'images/Explorer.jpg', title: 'Cave Explorer', category: 'exploration' },
+            { src: 'images/Goodwin-sink-1.webp', title: 'Goodwin Sink 1', category: 'exploration' },
+            { src: 'images/Goodwin-sink-2.webp', title: 'Goodwin Sink 2', category: 'exploration' },
+            { src: 'images/Goodwin-sink-3.webp', title: 'Goodwin Sink 3', category: 'formations' },
+            { src: 'images/Goodwin-sink-4.webp', title: 'Goodwin Sink 4', category: 'formations' },
+            { src: 'images/Goodwin-sink-5.webp', title: 'Goodwin Sink 5', category: 'exploration' },
+            { src: 'images/Goodwin-sink-6.webp', title: 'Goodwin Sink 6', category: 'formations' },
+            { src: 'images/Goodwin-sink-7.webp', title: 'Goodwin Sink 7', category: 'exploration' },
+            { src: 'images/Goodwin-sink-cleanup.webp', title: 'Goodwin Sink Cleanup', category: 'mapping' },
+            { src: 'images/Goodwin-sink-flooded.webp', title: 'Goodwin Sink Flooded', category: 'exploration' },
+            { src: 'images/River-cave.webp', title: 'River Cave', category: 'exploration' }
+        ];
+
+        let currentFilter = 'all';
+        let currentImageIndex = 0;
+        let filteredImages = [];
+
+        // Initialize gallery
+        function initGallery() {
+            filterGallery('all');
+        }
+
+        // Filter gallery
+        function filterGallery(category) {
+            currentFilter = category;
+            const grid = document.getElementById('galleryGrid');
+            grid.innerHTML = '';
+
+            filteredImages = category === 'all' 
+                ? images 
+                : images.filter(img => img.category === category);
+
+            filteredImages.forEach((image, index) => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.onclick = () => openLightbox(index);
+                
+                item.innerHTML = `
+                    <img src="${image.src}" alt="${image.title}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22300%22%3E%3Crect fill=%22%23ddd%22 width=%22320%22 height=%22300%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2218%22%3EImage not found%3C/text%3E%3C/svg%3E'">
+                    <div class="gallery-overlay">
+                        <h3>${image.title}</h3>
+                        <p>${getCategoryName(image.category)}</p>
+                    </div>
+                `;
+                
+                grid.appendChild(item);
+            });
+        }
+
+        // Get category display name
+        function getCategoryName(category) {
+            const names = {
+                'exploration': 'Cave Exploration',
+                'formations': 'Formations',
+                'mapping': 'Survey & Mapping'
+            };
+            return names[category] || 'Photography';
+        }
+
+        // Lightbox functions
+        function openLightbox(index) {
+            currentImageIndex = index;
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            const caption = document.getElementById('lightbox-caption');
+            
+            img.src = filteredImages[index].src;
+            caption.textContent = `${filteredImages[index].title} (${currentImageIndex + 1}/${filteredImages.length})`;
+            lightbox.classList.add('active');
+            
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function changeImage(direction) {
+            currentImageIndex += direction;
+            
+            if (currentImageIndex >= filteredImages.length) {
+                currentImageIndex = 0;
+            } else if (currentImageIndex < 0) {
+                currentImageIndex = filteredImages.length - 1;
+            }
+            
+            const img = document.getElementById('lightbox-img');
+            const caption = document.getElementById('lightbox-caption');
+            img.src = filteredImages[currentImageIndex].src;
+            caption.textContent = `${filteredImages[currentImageIndex].title} (${currentImageIndex + 1}/${filteredImages.length})`;
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            const lightbox = document.getElementById('lightbox');
+            if (lightbox.classList.contains('active')) {
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                } else if (e.key === 'ArrowLeft') {
+                    changeImage(-1);
+                } else if (e.key === 'ArrowRight') {
+                    changeImage(1);
+                }
+            }
+        });
+
+        // Filter button handlers
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                filterGallery(this.dataset.filter);
+            });
+        });
+
+        // Mobile menu
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (mobileToggle) {
+                mobileToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                });
+            }
+            
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                });
+            });
+
+            // Initialize gallery
+            initGallery();
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(255,255,255,0.98)';
+                header.style.boxShadow = '0 2px 20px rgba(255,140,0,0.2)';
+            } else {
+                header.style.background = 'rgba(255,255,255,0.95)';
+                header.style.boxShadow = '0 2px 10px rgba(255,140,0,0.1)';
+            }
+        });
+    </script>
+</body>
+</html>
