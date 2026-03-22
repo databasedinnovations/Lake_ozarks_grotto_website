@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goodwin Pit - Lake Ozarks Grotto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background: #ffffff;
+            color: #2c3e50;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            z-index: 9999;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255,140,0,0.2);
+            box-shadow: 0 2px 10px rgba(255,140,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff8c00, #ff6b35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #ff8c00, #ff6b35);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after,
+        .nav-menu a.active::after {
+            width: 100%;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #2c3e50;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        .page-hero {
+            padding: 140px 2rem 80px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1" fill="rgba(255,140,0,0.1)"/><circle cx="80" cy="40" r="0.5" fill="rgba(255,140,0,0.1)"/><circle cx="40" cy="80" r="1.5" fill="rgba(255,140,0,0.1)"/></svg>');
+        }
+
+        .page-hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-title {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.8);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .content-section {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            padding: 6rem 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .intro-section {
+            background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(248,250,252,0.8));
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+            border: 1px solid rgba(255,140,0,0.1);
+            box-shadow: 0 4px 20px rgba(255,140,0,0.08);
+        }
+
+        .intro-section h2 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .intro-content {
+            color: #7f8c8d;
+            font-size: 1.15rem;
+            line-height: 1.8;
+        }
+
+        .intro-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .spec-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(255,140,0,0.08);
+            border: 1px solid rgba(255,140,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .spec-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(255,140,0,0.15);
+        }
+
+        .spec-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .spec-value {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff8c00, #ff6b35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .spec-label {
+            color: #7f8c8d;
+            font-weight: 600;
+        }
+
+        .features-section {
+            margin: 4rem 0;
+        }
+
+        .features-section h2 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px rgba(255,140,0,0.08);
+            border: 1px solid rgba(255,140,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(255,140,0,0.15);
+            border-color: rgba(255,140,0,0.3);
+        }
+
+        .feature-card h3 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-card p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .warning-section {
+            background: linear-gradient(135deg, #ff6b35, #ff8c00);
+            color: white;
+            padding: 3rem;
+            border-radius: 20px;
+            margin: 4rem 0;
+            text-align: center;
+        }
+
+        .warning-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .warning-section p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            line-height: 1.8;
+        }
+
+        .warning-section ul {
+            list-style: none;
+            margin-top: 1.5rem;
+            text-align: left;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .warning-section li {
+            padding: 0.5rem 0;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .warning-section li:before {
+            content: "⚠️";
+            position: absolute;
+            left: 0;
+        }
+
+        .history-section {
+            background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(248,250,252,0.8));
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 4rem 0;
+            border: 1px solid rgba(255,140,0,0.1);
+        }
+
+        .history-section h2 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .history-content {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .history-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .gallery-item {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(255,140,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(255,140,0,0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 4rem 3rem;
+            border-radius: 24px;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            background: rgba(255,140,0,0.2);
+            color: white;
+            padding: 16px 32px;
+            border: 2px solid rgba(255,140,0,0.5);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .cta-button:hover {
+            background: rgba(255,140,0,0.3);
+            border-color: #ff8c00;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255,140,0,0.3);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(255,255,255,0.98);
+                flex-direction: column;
+                padding: 1rem 2rem;
+                box-shadow: 0 4px 20px rgba(255,140,0,0.1);
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .nav-menu li {
+                margin: 0.5rem 0;
+            }
+
+            .intro-section,
+            .history-section,
+            .warning-section,
+            .cta-section {
+                padding: 2rem;
+            }
+
+            .specs-grid,
+            .features-grid,
+            .image-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Lake Ozarks Grotto</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="goodwin-pit.html" class="active">Goodwin Pit</a></li>
+                    <li><a href="events.html">Current Events</a></li>
+                    <li><a href="speleograph.html">Speleograph</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <div class="page-hero-content">
+            <h1 class="page-title">⛰️ Goodwin Pit</h1>
+            <p class="page-subtitle">One of Missouri's premier vertical caving challenges - A deep pit requiring advanced skills and proper equipment</p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="intro-section">
+                <h2>About Goodwin Pit</h2>
+                <div class="intro-content">
+                    <p>Goodwin Pit stands as one of Missouri's most challenging and exciting vertical cave systems. This remarkable geological feature has attracted experienced cavers for decades, offering both technical challenges and stunning underground formations.</p>
+                    
+                    <p>The pit is characterized by its impressive vertical drop, requiring specialized rope techniques and equipment for safe exploration. The descent reveals layers of geological history and leads to passages that showcase the power of water in shaping Missouri's karst landscape.</p>
+                    
+                    <p>Lake Ozarks Grotto has a long history with Goodwin Pit, having conducted numerous expeditions, mapping projects, and training exercises at this location. It serves as an important site for teaching vertical caving techniques and has been the subject of ongoing conservation efforts by our membership.</p>
+                </div>
+            </div>
+
+            <div class="specs-grid">
+                <div class="spec-card">
+                    <div class="spec-icon">📏</div>
+                    <div class="spec-value">100+ ft</div>
+                    <div class="spec-label">Vertical Drop</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-icon">⚠️</div>
+                    <div class="spec-value">Advanced</div>
+                    <div class="spec-label">Skill Level Required</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-icon">🪢</div>
+                    <div class="spec-value">Technical</div>
+                    <div class="spec-label">Rope Skills Needed</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-icon">🎯</div>
+                    <div class="spec-value">Multiple</div>
+                    <div class="spec-label">Technical Pitches</div>
+                </div>
+            </div>
+
+            <div class="features-section">
+                <h2>What Makes Goodwin Pit Special</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3>🧗 Vertical Challenge</h3>
+                        <p>The main drop presents a thrilling vertical descent that tests cavers' technical rope skills. Single rope technique (SRT) proficiency is essential for safe exploration.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>💎 Geological Features</h3>
+                        <p>The pit exposes fascinating rock layers and formations, providing insights into Missouri's geological history. The walls tell a story millions of years in the making.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>🎓 Training Ground</h3>
+                        <p>Goodwin Pit serves as an excellent training location for cavers developing their vertical skills under the supervision of experienced instructors.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>🔬 Scientific Value</h3>
+                        <p>The site has been valuable for ongoing geological and biological studies, contributing to our understanding of karst systems in Missouri.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>📸 Photography</h3>
+                        <p>The dramatic vertical space and lighting conditions create stunning photography opportunities for those equipped to safely capture images.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>🤝 Community</h3>
+                        <p>Expeditions to Goodwin Pit foster teamwork and camaraderie among grotto members while building important technical skills.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning-section">
+                <h2>⚠️ Important Safety Information</h2>
+                <p><strong>Goodwin Pit is NOT for beginners.</strong> This is a serious vertical cave requiring advanced skills and proper equipment.</p>
+                <ul>
+                    <li>Advanced vertical caving skills and SRT proficiency are required</li>
+                    <li>All appropriate safety equipment must be in good condition</li>
+                    <li>Never attempt to explore without proper training and supervision</li>
+                    <li>Weather conditions can affect safety - plan accordingly</li>
+                    <li>Always cave with experienced partners and inform others of your plans</li>
+                    <li>Respect private property and obtain necessary permissions</li>
+                </ul>
+                <p style="margin-top: 1.5rem;"><strong>Contact Lake Ozarks Grotto for information about training opportunities and supervised trips.</strong></p>
+            </div>
+
+            <div class="history-section">
+                <h2>Our History with Goodwin Pit</h2>
+                <div class="history-content">
+                    <p>Lake Ozarks Grotto has been exploring and studying Goodwin Pit for many years, making it one of our signature locations. Our members have contributed significantly to the documentation and mapping of this system, and have used it as a training ground for countless cavers learning vertical techniques.</p>
+                    
+                    <p>Over the decades, we've conducted regular expeditions to Goodwin Pit for purposes including mapping, photography, training exercises, and conservation work. The site has been instrumental in helping develop the skills of grotto members who have gone on to explore caves throughout Missouri and beyond.</p>
+                    
+                    <p>We've also been involved in conservation efforts at Goodwin Pit, working to ensure this remarkable natural feature remains accessible for future generations of responsible cavers. This includes cleanup efforts, gate maintenance, and education about proper vertical caving techniques.</p>
+                    
+                    <p>Today, Goodwin Pit continues to challenge and inspire our members. It stands as a testament to the importance of proper training, safety consciousness, and respect for Missouri's underground environment.</p>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <h2>Want to Learn Vertical Caving?</h2>
+                <p>Lake Ozarks Grotto offers training in vertical caving techniques under experienced instructors. Start your journey toward exploring pits like Goodwin.</p>
+                <a href="contact.html" class="cta-button">Contact Us About Training</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (mobileToggle) {
+                mobileToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                });
+            }
+            
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                });
+            });
+        });
+
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(255,255,255,0.98)';
+                header.style.boxShadow = '0 2px 20px rgba(255,140,0,0.2)';
+            } else {
+                header.style.background = 'rgba(255,255,255,0.95)';
+                header.style.boxShadow = '0 2px 10px rgba(255,140,0,0.1)';
+            }
+        });
+    </script>
+</body>
+</html>
