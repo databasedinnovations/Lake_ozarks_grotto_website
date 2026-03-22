@@ -444,13 +444,6 @@
                 <p>Documenting Missouri's cave systems since 1967</p>
             </div>
 
-            <div class="gallery-filters">
-                <button class="filter-btn active" data-filter="all">All Photos</button>
-                <button class="filter-btn" data-filter="formations">Formations</button>
-                <button class="filter-btn" data-filter="exploration">Exploration</button>
-                <button class="filter-btn" data-filter="mapping">Mapping</button>
-            </div>
-
             <div class="gallery-grid" id="galleryGrid">
                 <!-- Gallery items will be dynamically loaded here -->
             </div>
@@ -496,50 +489,27 @@
             { src: 'images/Rimstone_dam.jpg', title: 'Rimstone Dam', category: 'formations' }
         ];
 
-        let currentFilter = 'all';
         let currentImageIndex = 0;
-        let filteredImages = [];
+        let filteredImages = images;
 
-        // Initialize gallery
         function initGallery() {
-            filterGallery('all');
-        }
-
-        // Filter gallery
-        function filterGallery(category) {
-            currentFilter = category;
             const grid = document.getElementById('galleryGrid');
             grid.innerHTML = '';
 
-            filteredImages = category === 'all' 
-                ? images 
-                : images.filter(img => img.category === category);
-
-            filteredImages.forEach((image, index) => {
+            images.forEach((image, index) => {
                 const item = document.createElement('div');
                 item.className = 'gallery-item';
                 item.onclick = () => openLightbox(index);
-                
+
                 item.innerHTML = `
                     <img src="${image.src}" alt="${image.title}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22300%22%3E%3Crect fill=%22%23ddd%22 width=%22320%22 height=%22300%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2218%22%3EImage not found%3C/text%3E%3C/svg%3E'">
                     <div class="gallery-overlay">
                         <h3>${image.title}</h3>
-                        <p>${getCategoryName(image.category)}</p>
                     </div>
                 `;
-                
+
                 grid.appendChild(item);
             });
-        }
-
-        // Get category display name
-        function getCategoryName(category) {
-            const names = {
-                'exploration': 'Cave Exploration',
-                'formations': 'Formations',
-                'mapping': 'Survey & Mapping'
-            };
-            return names[category] || 'Photography';
         }
 
         // Lightbox functions
@@ -590,15 +560,6 @@
                     changeImage(1);
                 }
             }
-        });
-
-        // Filter button handlers
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                filterGallery(this.dataset.filter);
-            });
         });
 
         // Mobile menu
