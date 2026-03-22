@@ -759,6 +759,10 @@
             <div class="dots-container" id="dotsContainer">
                 <!-- Dots will be generated here -->
             </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="gallery.html" style="display: inline-block; padding: 12px 32px; background: linear-gradient(135deg, #ff6b35, #ff8c00); color: white; text-decoration: none; border-radius: 50px; font-weight: 600; font-size: 1rem; transition: opacity 0.3s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">View Full Gallery</a>
+            </div>
         </div>
     </section>
 
@@ -824,26 +828,11 @@
         let slideIndex = 0;
         let slideInterval;
 
-        // Image paths - CORRECTED VERSION (after fixing the two files missing dots)
         const images = [
-            { src: 'images/Buzzard-roost-cave.webp', caption: 'Buzzard Roost Cave' },
-            { src: 'images/Cable-ladder.webp', caption: 'Cable Ladder' },
-            { src: 'images/Carroll-cave-1.webp', caption: 'Carroll Cave 1' },
-            { src: 'images/Carroll-cave-2.webp', caption: 'Carroll Cave 2' },
-            { src: 'images/Carroll-cave-3.webp', caption: 'Carroll Cave 3' },
-            { src: 'images/Cave Crickets.jpg', caption: 'Cave Crickets' },
-            { src: 'images/Cave Salamander.jpg', caption: 'Cave Salamander' },
-            { src: 'images/Cave Salamander 2.jpg', caption: 'Cave Salamander Close-up' },
-            { src: 'images/Explorer.jpg', caption: 'Cave Explorer' },
-            { src: 'images/Goodwin-sink-1.webp', caption: 'Goodwin Sink 1' },
-            { src: 'images/Goodwin-sink-2.webp', caption: 'Goodwin Sink 2' },
-            { src: 'images/Goodwin-sink-3.webp', caption: 'Goodwin Sink 3' },
-            { src: 'images/Goodwin-sink-4.webp', caption: 'Goodwin Sink 4' },
-            { src: 'images/Goodwin-sink-5.webp', caption: 'Goodwin Sink 5' },
-            { src: 'images/Goodwin-sink-6.webp', caption: 'Goodwin Sink 6' },
-            { src: 'images/Goodwin-sink-7.webp', caption: 'Goodwin Sink 7' },
-            { src: 'images/Goodwin-sink-cleanup.webp', caption: 'Goodwin Sink Cleanup' },
-            { src: 'images/Goodwin-sink-flooded.webp', caption: 'Goodwin Sink Flooded' },
+            { src: 'images/Carroll-cave-1.webp', caption: 'Carroll Cave' },
+            { src: 'images/Carroll-cave-2.webp', caption: 'Carroll Cave' },
+            { src: 'images/Goodwin-sink-2.webp', caption: 'Goodwin Sink' },
+            { src: 'images/Caver_1.jpg', caption: 'Cave Exploration' },
             { src: 'images/River-cave.webp', caption: 'River Cave' }
         ];
 
