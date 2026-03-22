@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goodwin Pit - Lake Ozarks Grotto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background: #ffffff;
+            color: #2c3e50;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            z-index: 9999;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255,140,0,0.2);
+            box-shadow: 0 2px 10px rgba(255,140,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff8c00, #ff6b35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #ff8c00, #ff6b35);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after,
+        .nav-menu a.active::after {
+            width: 100%;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #2c3e50;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        .page-hero {
+            padding: 140px 2rem 80px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1" fill="rgba(255,140,0,0.1)"/><circle cx="80" cy="40" r="0.5" fill="rgba(255,140,0,0.1)"/><circle cx="40" cy="80" r="1.5" fill="rgba(255,140,0,0.1)"/></svg>');
+        }
+
+        .page-hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-title {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.8);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .content-section {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            padding: 6rem 2rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .main-block {
+            background: white;
+            border-radius: 24px;
+            padding: 3.5rem;
+            box-shadow: 0 4px 24px rgba(255,140,0,0.08);
+            border: 1px solid rgba(255,140,0,0.1);
+            margin-bottom: 3rem;
+        }
+
+        .main-block h2 {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid rgba(255,140,0,0.2);
+        }
+
+        .main-block h3 {
+            font-size: 1.3rem;
+            color: #ff8c00;
+            margin: 2rem 0 0.75rem;
+            font-weight: 700;
+        }
+
+        .main-block p {
+            color: #555e6d;
+            font-size: 1.07rem;
+            line-height: 1.85;
+            margin-bottom: 1rem;
+        }
+
+        .main-block p:last-child {
+            margin-bottom: 0;
+        }
+
+        .callout {
+            background: linear-gradient(135deg, rgba(255,107,53,0.07), rgba(255,140,0,0.07));
+            border-left: 4px solid #ff8c00;
+            border-radius: 0 12px 12px 0;
+            padding: 1.2rem 1.6rem;
+            margin: 1.5rem 0;
+            color: #2c3e50;
+            font-size: 1.05rem;
+            line-height: 1.75;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #ff6b35, #ff8c00);
+            color: white;
+            padding: 3.5rem 3rem;
+            border-radius: 24px;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .cta-section p {
+            font-size: 1.15rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            background: rgba(255,255,255,0.18);
+            color: white;
+            padding: 16px 36px;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            letter-spacing: 0.02em;
+        }
+
+        .cta-button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle { display: flex; }
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(255,255,255,0.98);
+                flex-direction: column;
+                padding: 1rem 2rem;
+                box-shadow: 0 4px 20px rgba(255,140,0,0.1);
+            }
+
+            .nav-menu.active { display: flex; }
+            .nav-menu li { margin: 0.5rem 0; }
+
+            .main-block { padding: 2rem; }
+            .cta-section { padding: 2.5rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Lake Ozarks Grotto</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="goodwin-pit.html" class="active">Goodwin Pit</a></li>
+                    <li><a href="events.html">Current Events</a></li>
+                    <li><a href="speleograph.html">Speleograph</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <div class="page-hero-content">
+            <h1 class="page-title">Goodwin Sinkhole and Cave</h1>
+            <p class="page-subtitle">A long-term conservation and restoration project in Laclede County, Missouri — ongoing since 2012</p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+
+            <div class="main-block">
+                <h2>About Goodwin Sinkhole and Cave</h2>
+
+                <p>Goodwin Pit Sinkhole and Cave is an important karst feature in northern Laclede County, Missouri, owned and managed by the Missouri Caves and Karst Conservancy (MCKC). The site consists of a large sinkhole and the entrance to Goodwin Pit Cave — a cave that has never been formally surveyed, though historical accounts suggest it once extended roughly a quarter mile underground with an entrance large enough for a horse-drawn wagon.</p>
+
+                <div class="callout">
+                    Water flowing into Goodwin Sinkhole has been dye-traced by the Missouri Department of Natural Resources directly to Ha Ha Tonka Spring — Missouri's 12th largest spring — located approximately 10 miles northwest in neighboring Camden County. That spring discharges an estimated 50 million gallons per day into the Niangua Arm of the Lake of the Ozarks. Stormwater from nearly 100 surrounding acres drains through this sinkhole, making its restoration a regional water quality priority.
+                </div>
+
+                <h3>A History of Illegal Dumping</h3>
+                <p>For more than 60 years, Goodwin Pit served as a roadside dump site. Its proximity to Lancaster Road — the sinkhole is sometimes called the Lancaster Road Sinkhole — made it a convenient target, and over the decades it accumulated tires, car parts, household waste, clothing, and other debris buried in some places more than 30 feet deep under layers of accumulated silt. The buildup obstructed the natural flow of water through the sinkhole and cave, turning the site into what Missouri DNR described as having all the effects of a small-scale landfill — contaminating groundwater that drains all the way to Ha Ha Tonka Spring.</p>
+
+                <p>After decades of failed efforts to stop the dumping, Doug Goodwin donated the roughly one-acre site to MCKC, which coordinates ongoing cleanup and restoration. Cleanup began in 2012 with a broad coalition of volunteers including soldiers from Fort Leonard Wood, Boy Scouts, teachers, cavers, and community members. The DNR's Solid Waste Management Program arranged for roll-off dumpsters and waived hauling fees, while its scrap tire unit ensured proper disposal of the hundreds of tires pulled from the site.</p>
+
+                <h3>Civil War History</h3>
+                <p>The cave's history stretches back well before the dumping era. Accounts passed down through the Goodwin family describe the original entrance as approximately 30 feet wide and 15 feet high. During the Civil War, local residents reportedly sheltered enslaved people inside the cave to hide them from Jayhawker raids along the Missouri–Kansas border. MCKC's long-term goal is to fully restore the cave entrance to something approaching its original dimensions and eventually open the cave for exploration and survey.</p>
+
+                <h3>2024 Update</h3>
+                <p>Following a 2022 break-in in which all stored supplies and equipment were stolen, work resumed at the site in 2024. In February, an 8-foot chain-link fence was installed along Lancaster Road to deter future dumping. During three fall workdays, volunteers from Fort Leonard Wood returned to remove trash from the sinkhole, clear sticks and branches from the cave entrance, and haul an additional 560 pounds of debris to the transfer station. A new section of hog-panel fencing was added inside the cave where erosion had opened a gap in the existing barrier.</p>
+
+                <p>By November 2024, the cave was draining better than at any point in the project's history. For the first time on record, water could be heard running deep inside the cave even while the cave entrance itself held no standing water — despite the sinkhole having received 3.7 inches of rain in the preceding 48 hours. Historically, the cave didn't clear until water levels dropped 6–8 feet below the nearby Dry Auglaize concrete ford; in November 2024 it remained open even while water ran over the ford. Removing additional sediment from the cave passages remains a priority for future seasons.</p>
+
+                <p>To date, the project has removed over 170 tons of trash and trash-laden material, along with more than 6,600 tons of clean fill — the result of 230 workdays and 1,530 volunteers since 2012. The cave has not yet been reopened for exploration, but steady progress continues toward that goal.</p>
+            </div>
+
+            <div class="cta-section">
+                <h2>Help Restore a Missouri Natural Resource</h2>
+                <p>The Goodwin Sinkhole restoration depends entirely on volunteers like you. Get in touch to help clean up a natural resource right here in our state.</p>
+                <a href="contact.html" class="cta-button">Get In Touch</a>
+            </div>
+
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+
+            if (mobileToggle) {
+                mobileToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                });
+            }
+
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                });
+            });
+        });
+
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(255,255,255,0.98)';
+                header.style.boxShadow = '0 2px 20px rgba(255,140,0,0.2)';
+            } else {
+                header.style.background = 'rgba(255,255,255,0.95)';
+                header.style.boxShadow = '0 2px 10px rgba(255,140,0,0.1)';
+            }
+        });
+    </script>
+</body>
+</html>
