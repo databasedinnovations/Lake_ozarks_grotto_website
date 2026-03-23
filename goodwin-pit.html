@@ -252,27 +252,42 @@
             border-bottom: 2px solid rgba(255,140,0,0.2);
         }
 
+        .scroll-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .scroll-btn {
+            flex: 0 0 auto;
+            background: linear-gradient(135deg, #ff6b35, #ff8c00);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(255,140,0,0.3);
+        }
+
+        .scroll-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(255,140,0,0.4);
+        }
+
         .scroll-track {
             display: flex;
             gap: 1rem;
-            overflow-x: auto;
-            padding-bottom: 1rem;
+            overflow-x: hidden;
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
-        }
-
-        .scroll-track::-webkit-scrollbar {
-            height: 6px;
-        }
-
-        .scroll-track::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-
-        .scroll-track::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #ff6b35, #ff8c00);
-            border-radius: 10px;
+            flex: 1;
         }
 
         .scroll-item {
@@ -400,7 +415,8 @@
             .main-block { padding: 2rem; }
             .cta-section { padding: 2.5rem 1.5rem; }
             .scroll-gallery { padding: 1.5rem; }
-            .scroll-item { flex: 0 0 260px; }
+            .scroll-item { flex: 0 0 240px; }
+            .scroll-btn { width: 36px; height: 36px; font-size: 1rem; }
             .lightbox-nav { padding: 15px 20px; font-size: 24px; }
             .lightbox-prev { left: 10px; }
             .lightbox-next { right: 10px; }
@@ -467,7 +483,11 @@
 
             <div class="scroll-gallery">
                 <h2>Goodwin Sinkhole & Cave Gallery</h2>
-                <div class="scroll-track" id="scrollTrack"></div>
+                <div class="scroll-wrapper">
+                    <button class="scroll-btn" onclick="scrollGallery(-1)">&#10094;</button>
+                    <div class="scroll-track" id="scrollTrack"></div>
+                    <button class="scroll-btn" onclick="scrollGallery(1)">&#10095;</button>
+                </div>
             </div>
 
             <!-- Lightbox -->
@@ -514,6 +534,11 @@
                 item.innerHTML = `<img src="${image.src}" alt="${image.title}" loading="lazy">`;
                 track.appendChild(item);
             });
+        }
+
+        function scrollGallery(direction) {
+            const track = document.getElementById('scrollTrack');
+            track.scrollBy({ left: direction * 340, behavior: 'smooth' });
         }
 
         function openLightbox(index) {
